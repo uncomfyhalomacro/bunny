@@ -6,6 +6,7 @@ HAREFLAGS ?=
 HAREPATH ?=
 HARESRCDIR=$(SRCDIR)/hare
 THIRDPARTYDIR=$(HARESRCDIR)/third-party
+VERBOSITY = -v
 DESTDIR ?=
 PREFIX ?= /usr/local
 BINDIR ?= ${PREFIX}/bin
@@ -15,16 +16,16 @@ LIBS =
 
 bunny: cmd/bunny.ha
 	mkdir -p out/bin
-	$(VARS) $(HAREPATH) $(VARS) $(HARE) build $(LIBS) $(HAREFLAGS) -v -o out/bin/$@ $<
+	$(VARS) $(HAREPATH) $(VARS) $(HARE) build $(LIBS) $(HAREFLAGS) $(VERBOSITY) -o out/bin/$@ $<
 
 all: clean bunny install-lib
-	$(INSTALL) -v -m755 out/bin/bunny $(DESTDIR)$(BINDIR)
+	$(INSTALL) $(VERBOSITY) -m755 out/bin/bunny $(DESTDIR)$(BINDIR)
 
 install: clean bunny
-	$(INSTALL) -v -m755 out/bin/bunny $(DESTDIR)$(BINDIR)
+	$(INSTALL) $(VERBOSITY) -m755 out/bin/bunny $(DESTDIR)$(BINDIR)
 
 check: tests
-	$(VARS) $(HAREPATH) $(VARS) $(HARE) test $(LIBS) $(HAREFLAGS) -v $<
+	$(VARS) $(HAREPATH) $(VARS) $(HARE) test $(LIBS) $(HAREFLAGS) $(VERBOSITY) $<
 
 install-lib:
 	mkdir -p $(DESTDIR)$(THIRDPARTYDIR)/bunny
@@ -34,7 +35,7 @@ uninstall:
 	$(RM) $(DESTDIR)$(BINDIR)/bunny
 
 run: bunny
-	$(VARS) $(HAREPATH) $(VARS) $(HARE) run $(LIBS) $(HAREFLAGS) -v cmd
+	$(VARS) $(HAREPATH) $(VARS) $(HARE) run $(LIBS) $(HAREFLAGS) $(VERBOSITY) cmd
 	
 clean:
 	$(RM) -rv out
