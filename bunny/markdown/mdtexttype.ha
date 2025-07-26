@@ -1,4 +1,5 @@
 use strings;
+use fmt;
 
 export type texttype = (mdpair | media);
 
@@ -35,6 +36,8 @@ export fn extract_text_from_pair(pair: mdpair, line: str) []pair_info = {
     			return _extract_inline_code(line);
 		case mdpair::ITALIC =>
     			return _extract_italicized_text(line);
+		case mdpair::BOLD =>
+    			return _extract_boldened_text(line);
 		case =>
     		let new_pair_info = pair_info {
     			start= 0z,
@@ -43,6 +46,51 @@ export fn extract_text_from_pair(pair: mdpair, line: str) []pair_info = {
     		};
     		return [new_pair_info];
 	};
+};
+
+fn _extract_boldened_text(line: str) []pair_info = {
+	let pairs: []pair_info = [];
+	let pair = pair_info {
+		start= 0z,
+		end= 0z,
+		text= ""
+	};
+	let ispairfound = false;
+	let iter = strings::iter(line);
+	let found_first_pair = false;
+	let found_end_pair = false;
+	let found_count = 0;
+	let index = 0z;
+	for (true) {
+		let r = strings::next(&iter);
+		if (r is done) {
+			break;
+		};
+		index = index + 1;
+		if (r == '*') {
+			r = strings::next(&iter);  // do it again
+			if (r is done) {
+				break;
+			};
+			index = index + 1;
+			if (r == '*') {
+				found_first_pair = true;
+				if (found_count == 1) {
+					pair.end = index - 2; // a little offset to the left
+					pair.text = strings::sub(line, pair.start, pair.end);
+					append(pairs, pair)!;
+					found_first_pair = false;
+					found_count = 0;
+				};
+			};
+		};
+		if (found_first_pair) {
+			pair.start = index;
+			found_count = found_count + 1;
+			found_first_pair = false;
+		};
+	};
+	return pairs;
 };
 
 fn _extract_inline_code(line: str) []pair_info = {
