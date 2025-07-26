@@ -10,7 +10,7 @@ export type htmlnode = struct {
 	props: []prop,
 	isvoidable: bool,
 	value: nullable *str,
-	nodes: nullable *[]htmlnode
+	nodes: []htmlnode
 };
 
 export fn tohtml(node: htmlnode) str = {
