@@ -91,3 +91,39 @@ use fmt;
 	};
 
 };
+
+@test fn bold_text() void = {
+	let s = "**bold** text and unpaired** text.";
+	let text = markdown::mdpair::BOLD;
+	let lpairs = markdown::extract_text_from_pair(text, s);
+	for (let pair .. lpairs) {
+		assert(pair.text != s, "original text and new text should not be the same!");
+		assert(pair.text == "bold", "new text should be the extracted inline code!");
+		assert(pair.start == 2, "start index is wrong!");
+		assert(pair.end == 6, "end index is wrong!");
+	};
+};
+
+@test fn more_bold_text() void = {
+	let s = "** this is a bold text with a space before**, but this is another **bold text**. This one is **unpaired.";
+	let text = markdown::mdpair::BOLD;
+	let lpairs = markdown::extract_text_from_pair(text, s);
+	// 2 42  this is a bold text with a space before	(0)
+	// 68 77 bold text					(1)
+	let length = len(lpairs);
+	for (let i = 0z; i < length; i+=1) {
+		let pair = lpairs[i];
+		if (i == 0) {
+			assert(pair.text != s, "original text and new text should not be the same!");
+			assert(pair.text == " this is a bold text with a space before", "new text should be the extracted inline code!");
+			assert(pair.start == 2, "start index is wrong!");
+			assert(pair.end == 42, "end index is wrong!");
+		};
+		if (i == 1) {
+			assert(pair.text != s, "original text and new text should not be the same!");
+			assert(pair.text == "bold text", "new text should be the extracted inline code!");
+			assert(pair.start == 68, "start index is wrong!");
+			assert(pair.end == 77, "end index is wrong!");
+		};
+	};
+};
