@@ -20,7 +20,7 @@ export fn tohtml(node: htmlnode) str = {
 		case null =>
 			return "";
 		case let value: *str =>
-    			return *value;
+		return *value;
 		};
 	case let tag: *str =>
 		yield *tag;
@@ -29,7 +29,7 @@ export fn tohtml(node: htmlnode) str = {
 		case null =>
 			yield "";
 		case let value: *str =>
-    			yield *value;
+		yield *value;
 	};
 	let htmlattrs = tohtmlattrs(node.props);
 	let innerhtml = "";
