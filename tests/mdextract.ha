@@ -61,7 +61,7 @@ use fmt;
 	let lpairs = markdown::extract_text_from_pair(text, s);
 	for (let pair .. lpairs) {
 		assert(pair.text != s, "original text and new text should not be the same!");
-		assert(pair.text == "an italic text!", "new text should be the extracted inline code!");
+		assert(pair.text == "an italic text!", "new text should be the extracted italic text!");
 		assert(pair.start == 1, "start index is wrong!");
 		assert(pair.end == 16, "end index is wrong!");
 	};
@@ -78,13 +78,13 @@ use fmt;
 		let pair = lpairs[i];
 		if (i == 0) {
 			assert(pair.text != s, "original text and new text should not be the same!");
-			assert(pair.text == "an italic text!", "new text should be the extracted inline code!");
+			assert(pair.text == "an italic text!", "new text should be the extracted italic text!");
 			assert(pair.start == 1, "start index is wrong!");
 			assert(pair.end == 16, "end index is wrong!");
 		};
 		if (i == 1) {
 			assert(pair.text != s, "original text and new text should not be the same!");
-			assert(pair.text == "followed by another in just an index away", "new text should be the extracted inline code!");
+			assert(pair.text == "followed by another in just an index away", "new text should be the extracted italic text!");
 			assert(pair.start == 18, "start index is wrong!");
 			assert(pair.end == 59, "end index is wrong!");
 		};
@@ -98,7 +98,7 @@ use fmt;
 	let lpairs = markdown::extract_text_from_pair(text, s);
 	for (let pair .. lpairs) {
 		assert(pair.text != s, "original text and new text should not be the same!");
-		assert(pair.text == "bold", "new text should be the extracted inline code!");
+		assert(pair.text == "bold", "new text should be the extracted bold text!");
 		assert(pair.start == 2, "start index is wrong!");
 		assert(pair.end == 6, "end index is wrong!");
 	};
@@ -115,13 +115,13 @@ use fmt;
 		let pair = lpairs[i];
 		if (i == 0) {
 			assert(pair.text != s, "original text and new text should not be the same!");
-			assert(pair.text == " this is a bold text with a space before", "new text should be the extracted inline code!");
+			assert(pair.text == " this is a bold text with a space before", "new text should be the extracted bold text!");
 			assert(pair.start == 2, "start index is wrong!");
 			assert(pair.end == 42, "end index is wrong!");
 		};
 		if (i == 1) {
 			assert(pair.text != s, "original text and new text should not be the same!");
-			assert(pair.text == "bold text", "new text should be the extracted inline code!");
+			assert(pair.text == "bold text", "new text should be the extracted bold text!");
 			assert(pair.start == 68, "start index is wrong!");
 			assert(pair.end == 77, "end index is wrong!");
 		};
