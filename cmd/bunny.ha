@@ -8,23 +8,30 @@ export const BUNNY_VERSION = "0.1.0";
 export fn main() void = {
 	let new_prop = html::prop {
 		name = "href",
-		value = "https://example.com",
+		value = &"https://example.com",
 	};
 	let second_prop = html::prop {
 		name = "rel",
-		value = "me",
+		value = &"me",
 	};
 	let third_prop = html::prop {
 		name = "xcom",
-		value = void,
+		value = null,
 	};
 	let new_node = html::htmlnode {
-		tag = "a",
+		tag = &"a",
 		props = [new_prop, second_prop, third_prop],
 		isvoidable = false,
-		value = "Hello, world!",
+		value = &"Hello, world!",
+		nodes = [],
+	};
+	let second_html_node = html::htmlnode {
+		tag = &"a",
+		props = [new_prop, second_prop, third_prop],
+		isvoidable = false,
+		value = &"Hello, world!",
+		nodes = [],
 	};
 	let html = html::tohtml(new_node);
-	defer free(html);
 	fmt::printfln(html)!;
 };
