@@ -2,33 +2,34 @@ use strings;
 
 export type prop = struct {
 	name: str,
-	value: (void | str),
+	value: nullable *str,
 };
 
 export type htmlnode = struct {
-	tag: (void | str),
+	tag: nullable *str,
 	props: []prop,
 	isvoidable: bool,
-	value: (void | str),
+	value: nullable *str,
+	nodes: nullable *[]htmlnode
 };
 
 export fn tohtml(node: htmlnode) str = {
-	let tag = match (node.tag) {
-	case void =>
+	let tag: str = match (node.tag) {
+	case null =>
 		match(node.value) {
-		case void =>
+		case null =>
 			return "";
-		case let value: str =>
-    			return value;
+		case let value: *str =>
+    			return *value;
 		};
-	case let tag: str =>
-		yield tag;
+	case let tag: *str =>
+		yield *tag;
 	};
-	let value = match(node.value) {
-		case void =>
+	let value: str = match(node.value) {
+		case null =>
 			yield "";
-		case let value: str =>
-    			yield value;
+		case let value: *str =>
+    			yield *value;
 	};
 	let htmlattrs = tohtmlattrs(node.props);
 	let innerhtml = "";
@@ -62,11 +63,11 @@ export fn tohtmlattrs(attrs: []prop) []str = {
 
 export fn tohtmlattr(attr: prop) str = {
 	let name = attr.name;
-	let value = match(attr.value) {
-	case void =>
+	let value: str = match(attr.value) {
+	case null =>
 		yield "";
-	case let value: str =>
-		let tmp = strings::concat("=\"", value)!;
+	case let value: *str =>
+		let tmp = strings::concat("=\"", *value)!;
 		tmp = strings::concat(tmp, "\"")!;
 		yield tmp;
 	};
