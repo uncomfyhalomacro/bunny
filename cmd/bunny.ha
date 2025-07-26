@@ -33,7 +33,7 @@ fmt::printfln(usage)!;
 
 export fn main() void = {
 	if (len(os::args) == 1) {
-		fmt::errorfln("Please provide a summary and additional arguments. For more help, run `bunny -h`")!;
+		fmt::errorfln("Please provide arguments. For more help, run `bunny -h`")!;
 		os::exit(2);
 	};
 
