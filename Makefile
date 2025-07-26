@@ -23,6 +23,9 @@ all: clean bunny install-lib
 install: clean bunny
 	$(INSTALL) -v -m755 out/bin/bunny $(DESTDIR)$(BINDIR)
 
+check: tests
+	$(VARS) $(HAREPATH) $(VARS) $(HARE) test $(LIBS) $(HAREFLAGS) -v $<
+
 install-lib:
 	mkdir -p $(DESTDIR)$(THIRDPARTYDIR)/bunny
 	install -m644 bunny/*.ha $(DESTDIR)$(THIRDPARTYDIR)/bunny
