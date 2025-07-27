@@ -51,6 +51,6 @@ fn print_medias() void = {
 ```
 
 
-See [./tests/] for check for how each functionality behaves.
+See [./tests/](./tests/) for check for how each functionality behaves.
 
 You may want to run this with `sudo` privileges.
