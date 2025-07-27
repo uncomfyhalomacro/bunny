@@ -207,7 +207,6 @@ fn _extract_linked_text(line: str) []media_info= {
 			};
 			index+=1;
 			if (r == '[') {  // logic here is to not get anything that starts with ! since they are for images.
-				fmt::printfln("image?")!;
 				found_first_bracket_pair = false;
 				found_first_parenthesis_pair = false;
 				found_bracket_count = 0;
@@ -215,7 +214,6 @@ fn _extract_linked_text(line: str) []media_info= {
 			};  // else just go along..
 		};
 		if (r == '[') {
-			fmt::printfln("Found first bracket pair?")!;
 			found_first_bracket_pair = true;
 			found_first_parenthesis_pair = false;
 		};
@@ -238,7 +236,6 @@ fn _extract_linked_text(line: str) []media_info= {
 			index += 1;
 			if (r == '(') {
 				found_first_parenthesis_pair = true;
-				fmt::printfln("Reached first paren pair!")!;
 				found_bracket_count = 0;
 			};
 		};
@@ -247,7 +244,6 @@ fn _extract_linked_text(line: str) []media_info= {
 			found_first_parenthesis_pair = false;
 		};
 		if (found_parenthesis_count == 1) {
-			fmt::printfln("branched here: {}", found_bracket_count)!;
 			if (r == ')') {
 				info.end = index - 1;
 				info.url = strings::sub(line, info.start + (len(info.alt_text)) + 2, info.end);
