@@ -29,9 +29,15 @@ the language so here we are.
 🐇 **Bunny** is not only an SSG but it also _**provides a simple markdown
 parser and a markdown to html exporter library**_. The intended goal in the future is
 to be [CommonMark](https://spec.commonmark.org/) spec compliant with custom
-extensions. To use the library, just run the following command:
+extensions. To install the library, just run the following command:
+
+> A note before running the command. `HARESRCDIR` must be _indirectly_ set by `SRCDIR` before anything else.
+> By default, it points to `/usr/local/src/hare` but if you installed it using the AUR or openSUSE's zypper,
+> then it should be in `/usr/src/hare`. Hence, ensure you know where it is located and set `SRCDIR`
+> and not `HARESRCDIR`.
 
 ```bash
+export SRCDIR=/usr/src/hare
 make install-lib
 ```
 
@@ -51,6 +57,30 @@ fn print_medias() void = {
 ```
 
 
-See [./tests/](./tests/) to check on how each functionality behaves.
+See [./tests/](./tests/) to check on how each functionality behaves. See [./examples/](./examples/) to know how to use the library.
+
+To run the tests, you can run the following command:
+
+```bash
+hare test tests
+```
+
+You can also run specific tests by specifying the file path:
+
+```bash
+hare test tests/mdextract.ha
+```
+
+To run the examples, you can run the following command:
+
+```bash
+hare run examples
+```
+
+You can also run specific examples by specifying the file path:
+
+```bash
+hare run examples/extract-media.ha
+```
 
 You may want to run this with `sudo` privileges.
