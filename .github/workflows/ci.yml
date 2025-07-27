@@ -20,7 +20,7 @@ jobs:
     steps:
     - name: Install Hare
       run: |
-        zypper --non-interactive -vvv in hare harec make
+        zypper --non-interactive -vvv in hare harec make binutils qbe
     - name: Checkout
       uses: actions/checkout@v4
     - name: Build
