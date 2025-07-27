@@ -15,6 +15,8 @@ INSTALL := install
 VARS =LD_LIBRARY_PATH=/usr/lib64:${LD_LIBRARY_PATH}
 LIBS =
 
+build: bunny
+
 bunny: cmd/bunny.ha
 	mkdir -p out/bin
 	$(VARS) $(HAREPATH) $(VARS) $(HARE) build $(LIBS) $(HAREFLAGS) $(VERBOSITY) -o out/bin/$@ $<
@@ -42,4 +44,4 @@ clean:
 	$(RM) -rv out
 	$(HARE) cache -c
 	
-.PHONY: all clean install bunny install-lib
+.PHONY: all clean install bunny build install-lib
