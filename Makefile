@@ -4,9 +4,10 @@
 HARE ?= hare
 HAREFLAGS ?=
 HAREPATH ?=
+SRCDIR ?= /usr/local/src
 HARESRCDIR=$(SRCDIR)/hare
 THIRDPARTYDIR=$(HARESRCDIR)/third-party
-VERBOSITY = -v
+VERBOSITY ?= -v
 DESTDIR ?=
 PREFIX ?= /usr/local
 BINDIR ?= ${PREFIX}/bin
@@ -28,14 +29,14 @@ check: tests
 	$(VARS) $(HAREPATH) $(VARS) $(HARE) test $(LIBS) $(HAREFLAGS) $(VERBOSITY) $<
 
 install-lib:
-	mkdir -p $(DESTDIR)$(THIRDPARTYDIR)/bunny
-	install -m644 bunny/*.ha $(DESTDIR)$(THIRDPARTYDIR)/bunny
+	mkdir -p $(DESTDIR)$(THIRDPARTYDIR)/
+	cp -rfv bunny $(DESTDIR)$(THIRDPARTYDIR)/
 
 uninstall:
 	$(RM) $(DESTDIR)$(BINDIR)/bunny
 
 run: bunny
-	$(VARS) $(HAREPATH) $(VARS) $(HARE) run $(LIBS) $(HAREFLAGS) $(VERBOSITY) cmd
+	$(VARS) $(HAREPATH) $(VARS) $(HARE) run $(LIBS) $(HAREFLAGS) $(VERBOSITY) cmd $<
 	
 clean:
 	$(RM) -rv out
