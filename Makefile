@@ -42,4 +42,4 @@ clean:
 	$(RM) -rv out
 	$(HARE) cache -c
 	
-.PHONY: clean install
+.PHONY: all clean install bunny install-lib
