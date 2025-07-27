@@ -2,6 +2,9 @@ use strings;
 use os;
 use fmt;
 
+// Passed to [[bunny::html::parentnode]] and [[bunny::html::htmlnode]], the [[bunny::html::htmlnodetype]].
+// They are actually generated for HTML attributes such as
+// `rel` or `src`.
 export type prop = struct {
 	name: str,
 	value: nullable *str,
