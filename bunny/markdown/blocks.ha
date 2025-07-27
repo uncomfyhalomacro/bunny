@@ -38,7 +38,7 @@ export fn generate_blocks(md: str) []block_info = {
 					block= blk,
 				}
 			)!;
-		} else if (_starts_with(blk, "```").1) {
+		} else if (_starts_with(blk, "```").1 && _ends_with(blk, "```").1) {
 			append(
 				block_infos,
 				block_info {
@@ -182,6 +182,14 @@ fn _starts_with_numbered_item(haystack: str) bool = {
 
 fn _starts_with(haystack: str, sub: str) (str, bool) = {
 	let new_string = strings::trimprefix(haystack, sub);
+	if (new_string == haystack) {
+		return (haystack, false);
+	};
+	return (new_string, true);
+};
+
+fn _ends_with(haystack: str, sub: str) (str, bool) = {
+	let new_string = strings::trimsuffix(haystack, sub);
 	if (new_string == haystack) {
 		return (haystack, false);
 	};
