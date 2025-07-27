@@ -32,6 +32,8 @@ export fn extract_media(med: media, line: str) []media_info= {
 	switch (med) {
 		case media::LINK =>
 			return _extract_linked_text(line);
+		case media::IMAGE =>
+			return _extract_image_text(line);
 		case =>
 			fmt::fatalf("Error: Unknown media type. Is this enum variant implemented?");
 	};
@@ -216,6 +218,82 @@ fn _extract_linked_text(line: str) []media_info= {
 		if (r == '[') {
 			found_first_bracket_pair = true;
 			found_first_parenthesis_pair = false;
+		};
+		if (found_first_bracket_pair) {
+			info.start = index;
+			found_bracket_count += 1;
+			found_first_bracket_pair = false;
+		};
+		if (r == ']') {
+			if (found_bracket_count == 1) {
+				info.alt_text = strings::sub(line, info.start, index - 1);
+				found_bracket_count += 1;
+			};
+		};
+		if (found_bracket_count == 2) {
+			r = strings::next(&iter);
+			if (r is done) {
+				break;
+			};
+			index += 1;
+			if (r == '(') {
+				found_first_parenthesis_pair = true;
+				found_bracket_count = 0;
+			};
+		};
+		if (found_first_parenthesis_pair) {
+			found_parenthesis_count += 1;
+			found_first_parenthesis_pair = false;
+		};
+		if (found_parenthesis_count == 1) {
+			if (r == ')') {
+				info.end = index - 1;
+				info.url = strings::sub(line, info.start + (len(info.alt_text)) + 2, info.end);
+				found_first_bracket_pair = false;
+				found_first_parenthesis_pair = false;
+				found_bracket_count = 0;
+				found_parenthesis_count = 0;
+				append(infos, info)!;
+			};
+		};
+	};
+	return infos;
+};
+
+fn _extract_image_text(line: str) []media_info= {
+	let infos: []media_info = [];
+	let info = media_info {
+		start= 0z,
+		end= 0z,
+		alt_text= "",
+		url= ""
+	};
+	let ispairfound = false;
+	let iter = strings::iter(line);
+	let found_first_bracket_pair = false;
+	let found_first_parenthesis_pair = false;
+	let found_bracket_count = 0;
+	let found_parenthesis_count = 0;
+	let index = 0z;
+	// TODO: implement regex checks for URL partition.
+	for (true) {
+		let r = strings::next(&iter);
+		index = index + 1;
+		if (r is done) {
+			break;
+		};
+		if (r == '!') {
+			r = strings::next(&iter);
+			if (r is done) {
+				break;
+			};
+			index+=1;
+			if (r == '[') {  // reverse logic for images
+				found_first_bracket_pair = true;
+				found_first_parenthesis_pair = false;
+				found_bracket_count = 0;
+				found_parenthesis_count = 0;
+			};
 		};
 		if (found_first_bracket_pair) {
 			info.start = index;
