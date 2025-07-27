@@ -1,0 +1,35 @@
+name: CI for Bunny
+
+on:
+  push:
+    paths:
+      - '**.ha'
+      - '**/github/**.yaml'
+      - '**/github/**.yml'
+      - '**/Makefile'
+      - '!**.md'
+  pull_request:
+    paths:
+      - '**.ha'
+      - '**/Makefile'
+      - '!**.md'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: opensuse/tumbleweed
+    steps:
+    - name: Install Hare
+      run: |
+        zypper --non-interactive -vvv in hare harec make
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Build
+      run: |
+        make build
+    - name: Tests
+      run: |
+        make check
+    - name: Run examples
+      run: |
+        hare run -v examples
+
