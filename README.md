@@ -32,12 +32,12 @@ to be [CommonMark](https://spec.commonmark.org/) spec compliant with custom
 extensions. To install the library, just run the following command:
 
 > A note before running the command. `HARESRCDIR` must be _indirectly_ set by `SRCDIR` before anything else.
-> By default, it points to `/usr/local/src/hare` but if you installed it using the AUR or openSUSE's zypper,
-> then it should be in `/usr/src/hare`. Hence, ensure you know where it is located and set `SRCDIR`
-> and not `HARESRCDIR`.
+> By default, it points to `/usr/local/src` but if you installed it using the AUR or openSUSE's zypper,
+> then it should be in `/usr/src`. Hence, ensure you know where it is located and set `SRCDIR`
+> and not `HARESRCDIR`. Refer to the [./Makefile](./Makefile) for other environmental variables.
 
 ```bash
-export SRCDIR=/usr/src/hare
+export SRCDIR=/usr/src
 make install-lib
 ```
 
