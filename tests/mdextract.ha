@@ -1,4 +1,5 @@
 use bunny::markdown;
+use strings;
 use fmt;
 
 @test fn normaltext() void = {
@@ -124,6 +125,56 @@ use fmt;
 			assert(pair.text == "bold text", "new text should be the extracted bold text!");
 			assert(pair.start == 68, "start index is wrong!");
 			assert(pair.end == 77, "end index is wrong!");
+		};
+	};
+};
+
+@test fn linked_text() void = {
+	let s = "[this is an alt text](https://example.com) and this is not a correct [link text)";
+	let text = markdown::media::LINK;
+	let lpairs = markdown::extract_media(text, s);
+	for (let pair .. lpairs) {
+		assert(pair.alt_text != s, "original text and new text should not be the same!");
+		assert(pair.alt_text == "this is an alt text", "new text should be extracted alt text!");
+		assert(pair.url == "https://example.com", "new url should be extracted url!");
+		assert(pair.start == 1, "start index is wrong!");
+		assert(pair.end == 41, "end index is wrong!");
+		assert(strings::sub(s, pair.start, pair.end) == "this is an alt text](https://example.com", "resulting text should start after the first opening bracket and ends before the last closing parenthesis. the middle should be `](`!");
+	};
+};
+
+@test fn more_linked_text() void = {
+	let s = "[alt text](https://example.com) and another alt text but [image](https://url.to.image.com). and another [alt text with a lot of space    !](https://spaces.com). ![image ignored](https://uwu.com)";
+	let text = markdown::media::LINK;
+	// 1 30 alt:alt text url:https://example.com					(0)
+	// 58 89 alt:image url:https://url.to.image.com					(1)
+	// 105 158 alt:alt text with a lot of space    ! url:https://spaces.com		(2)
+	let lpairs = markdown::extract_media(text, s);
+	for (let i = 0z; i < len(lpairs); i+=1) {
+		let pair = lpairs[i];
+		if (i == 0) {
+			assert(pair.alt_text != s, "original text and new text should not be the same!");
+			assert(pair.alt_text == "alt text", "new text should be extracted alt text!");
+			assert(pair.url == "https://example.com", "new url should be extracted url!");
+			assert(pair.start == 1, "start index is wrong!");
+			assert(pair.end == 30, "end index is wrong!");
+			assert(strings::sub(s, pair.start, pair.end) == "alt text](https://example.com", "resulting text should start after the first opening bracket and ends before the last closing parenthesis. the middle should be `](`!");
+		};
+		if (i == 1) {
+			assert(pair.alt_text != s, "original text and new text should not be the same!");
+			assert(pair.alt_text == "image", "new text should be extracted alt text!");
+			assert(pair.url == "https://url.to.image.com", "new url should be extracted url!");
+			assert(pair.start == 58, "start index is wrong!");
+			assert(pair.end == 89, "end index is wrong!");
+			assert(strings::sub(s, pair.start, pair.end) == "image](https://url.to.image.com", "resulting text should start after the first opening bracket and ends before the last closing parenthesis. the middle should be `](`!");
+		};
+		if (i == 2) {
+			assert(pair.alt_text != s, "original text and new text should not be the same!");
+			assert(pair.alt_text == "alt text with a lot of space    !", "new text should be extracted alt text!");
+			assert(pair.url == "https://spaces.com", "new url should be extracted url!");
+			assert(pair.start == 105, "start index is wrong!");
+			assert(pair.end == 158, "end index is wrong!");
+			assert(strings::sub(s, pair.start, pair.end) == "alt text with a lot of space    !](https://spaces.com", "resulting text should start after the first opening bracket and ends before the last closing parenthesis. the middle should be `](`!");
 		};
 	};
 };
