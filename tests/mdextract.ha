@@ -178,3 +178,44 @@ use fmt;
 		};
 	};
 };
+
+@test fn image_text() void = {
+	let s="![image alt text!](https://imgur.com) and another unpaired ![text](https://example.com";
+	let text = markdown::media::IMAGE;
+	let lpairs = markdown::extract_media(text, s);
+	for (let pair .. lpairs) {
+		assert(pair.alt_text != s, "original text and new text should not be the same!");
+		assert(pair.alt_text == "image alt text!", "new text should be extracted alt text!");
+		assert(pair.url == "https://imgur.com", "new url should be extracted url!");
+		assert(pair.start == 2, "start index is wrong!");
+		assert(pair.end == 36, "end index is wrong!");
+		assert(strings::sub(s, pair.start, pair.end) == "image alt text!](https://imgur.com", "resulting text should start after the first opening bracket and ends before the last closing parenthesis. the middle should be `](`!");
+	};
+};
+
+@test fn more_image_text() void = {
+	let s="![image alt text!](https://imgur.com) and another unpaired ![text](https://example.com ![followed by correct format](https://image.com/correct)";
+	let text = markdown::media::IMAGE;
+	let lpairs = markdown::extract_media(text, s);
+	// 2 36 image alt text!](https://imgur.com			(0)
+	// 89 142 followed by correct format](https://image.com/correct	(1)
+	for (let i = 0z; i < len(lpairs); i+=1) {
+		let pair = lpairs[i];
+		if (i == 0) {
+			assert(pair.alt_text != s, "original text and new text should not be the same!");
+			assert(pair.alt_text == "image alt text!", "new text should be extracted alt text!");
+			assert(pair.url == "https://imgur.com", "new url should be extracted url!");
+			assert(pair.start == 2, "start index is wrong!");
+			assert(pair.end == 36, "end index is wrong!");
+			assert(strings::sub(s, pair.start, pair.end) == "image alt text!](https://imgur.com", "resulting text should start after the first opening bracket and ends before the last closing parenthesis. the middle should be `](`!");
+		};
+		if (i == 1) {
+			assert(pair.alt_text != s, "original text and new text should not be the same!");
+			assert(pair.alt_text == "followed by correct format", "new text should be extracted alt text!");
+			assert(pair.url == "https://image.com/correct", "new url should be extracted url!");
+			assert(pair.start == 89, "start index is wrong!");
+			assert(pair.end == 142, "end index is wrong!");
+			assert(strings::sub(s, pair.start, pair.end) == "followed by correct format](https://image.com/correct", "resulting text should start after the first opening bracket and ends before the last closing parenthesis. the middle should be `](`!");
+		};
+	};
+};
