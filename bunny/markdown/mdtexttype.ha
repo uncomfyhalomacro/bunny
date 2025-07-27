@@ -210,7 +210,7 @@ fn _extract_linked_text(line: str) []media_info= {
 				found_first_bracket_pair = false;
 				found_first_parenthesis_pair = false;
 				found_bracket_count = 0;
-        			continue;
+				continue;
 			};  // else just go along..
 		};
 		if (r == '[') {
