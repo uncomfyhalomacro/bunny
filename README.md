@@ -10,7 +10,7 @@ an HTML file. It's still in its early stages and under heavy experimentation.
 ## Inspiration
 
 The inspiration around the project is from [Boot.dev](https://boot.dev)'s
-static site generator in Python. I build this project out of curiosity of
+static site generator in Python. I am building this project out of curiosity of
 the Hare programming language. I already made a project in Hare but I miss
 the language so here we are.
 
@@ -51,6 +51,6 @@ fn print_medias() void = {
 ```
 
 
-See [./tests/](./tests/) for check for how each functionality behaves.
+See [./tests/](./tests/) to check on how each functionality behaves.
 
 You may want to run this with `sudo` privileges.
