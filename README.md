@@ -41,6 +41,8 @@ export SRCDIR=/usr/src/hare
 make install-lib
 ```
 
+> You may want to run this with `sudo` privileges.
+
 Once installed, you can then put this to your Harelang code.
 
 ```hare
@@ -83,4 +85,3 @@ You can also run specific examples by specifying the file path:
 hare run examples/extract-media.ha
 ```
 
-You may want to run this with `sudo` privileges.
