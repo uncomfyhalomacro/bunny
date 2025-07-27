@@ -85,3 +85,20 @@ You can also run specific examples by specifying the file path:
 hare run examples/extract-media.ha
 ```
 
+## Internal Documentation
+
+To see library documentation or list of functions, you can run the following commands:
+
+```bash
+haredoc bunny
+haredoc bunny::markdown
+haredoc bunny::html
+```
+
+To show undocumented public functions and types, append the `-a` flag before the module name e.g.
+
+```bash
+haredoc -a bunny
+haredoc -a bunny::markdown
+haredoc -a bunny::html
+```
