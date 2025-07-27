@@ -26,6 +26,7 @@ export type block_info = struct {
 // "1. " is a ordered list
 // "```custom language" is a code block
 // "> " is a block quote
+// "# " is a header
 export fn generate_blocks(md: str) []block_info = {
 	let block_infos: []block_info = [];
 	let blks = _split_to_blocks(strings::trim(md));
