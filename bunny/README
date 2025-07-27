@@ -1,1 +1,5 @@
-bunny: contains modules for parsing markdown files and exporting them to HTML.
+bunny: contains modules for parsing markdown files and converting them to HTML.
+
+The main bunny module combines functions for generating HTML using `bunny::markdown`
+and `bunny::html`. It serves as an entry point for the `bunny`, the static site
+generator.
