@@ -1,6 +1,7 @@
 use strings;
 use fmt;
 
+// A tagged union of [[mdpair::]] and [[media::]] as [[texttype::]].
 export type texttype = (mdpair | media);
 
 export type mdpair = enum {
@@ -10,13 +11,18 @@ export type mdpair = enum {
 	ITALIC,
 };
 
+// Represents an enum for either an image or a link.
 export type media = enum {
 	LINK,
 	IMAGE
 };
 
+// A tagged union of [[media_info::]] and [[pair_info::]] for various textual
+// information.
 export type superinfotype = (media_info | pair_info);
 
+// Represents the captured matches based on [[media::]]
+// for images or links.
 export type media_info = struct {
 	start: size,
 	end: size,
@@ -24,12 +30,15 @@ export type media_info = struct {
 	url: str
 };
 
+// Represents the captured matches based on [[mdpair::]] for
+// bold, inline code and italic text.
 export type pair_info = struct {
 	start: size,
 	end: size,
 	text: str
 };
 
+// Generates a list of [[media_info::]]s based on an [[media::]] enum variant from a line of text.
 export fn extract_media(med: media, line: str) []media_info= {
 	switch (med) {
 		case media::LINK =>
@@ -41,8 +50,7 @@ export fn extract_media(med: media, line: str) []media_info= {
 	};
 };
 
-// This should return a list
-// of pair_infos.
+// Generates a list of [[pair_info::]]s based on an [[mdpair::]] enum variant from a line of text.
 export fn extract_text_from_pair(pair: mdpair, line: str) []pair_info = {
 	switch (pair) {
 		case mdpair::TEXT =>
