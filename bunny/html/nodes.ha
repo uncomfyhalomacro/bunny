@@ -100,13 +100,14 @@ fn _htmlnode_tohtml(node: htmlnode) str = {
 
 // Generates HTML elements as string from [[bunny::html::parentnode]] or [[bunny::html::htmlnode]].
 export fn tohtml(node: htmlnodesupertype) str = {
-	if (node is htmlnode) {
-		return _htmlnode_tohtml(node as htmlnode);
+	match (node) {
+		case let new_node: htmlnode =>
+			return _htmlnode_tohtml(node as htmlnode);
+		case let new_node: parentnode =>
+			return _parentnode_tohtml(node as parentnode);
+		case =>
+			fmt::fatalf("Error: unknown nodetype passed.");
 	};
-	if (node is parentnode) {
-		return _parentnode_tohtml(node as parentnode);
-	};
-	fmt::fatalf("Error: unknown nodetype passed.");
 };
 
 // Generates HTML attributes from a list of [[bunny::html::prop]] as a
