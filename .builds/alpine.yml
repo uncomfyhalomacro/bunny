@@ -1,0 +1,15 @@
+image: alpine/edge
+packages:
+    - hare
+    - make
+    - pkgconf
+tasks:
+    - build: |
+        cd bunny
+        make build
+    - test: |
+        cd bunny
+        make check
+    - examples: |
+        cd bunny
+        find examples/ -type f -exec hare run {} \;
