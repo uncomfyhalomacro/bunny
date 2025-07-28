@@ -2,8 +2,7 @@ use bunny::markdown;
 use fmt;
 use strings;
 
-// TODO: This ezample shows that links with _ can be counted as italics.
-// We need to add checks for the functions for that.
+// TODO: This example shows that links with _ can be counted as italics. We need to add checks for the functions for that.
 fn print_blocks() void = {
 	let md = """
 # Exploring the Wilderness 🏞️
@@ -25,9 +24,11 @@ Stay safe, be *curious*, and keep exploring—because **the wild is waiting**!
 	let block_infos = markdown::generate_blocks(md);
 	for (let blk .. block_infos) {
 		let sinfos = markdown::generate_information_from_block(blk);
-		fmt::printfln("-----------------------------------------")!;
-		fmt::printfln("Unsorted!")!;
-		fmt::printfln("-----------------------------------------")!;
+		if (len(sinfos) > 0) {
+			fmt::printfln("-----------------------------------------")!;
+			fmt::printfln("Unsorted!")!;
+			fmt::printfln("-----------------------------------------")!;
+		};
 		for (let sinfo .. sinfos) {
 			if (sinfo is markdown::media_info) {
 				let sinfo = sinfo as markdown::media_info;
@@ -39,9 +40,11 @@ Stay safe, be *curious*, and keep exploring—because **the wild is waiting**!
 			};
 		};
 		let sorted_sinfos = markdown::sort_infos_by_start_index(sinfos);
-		fmt::printfln("-----------------------------------------")!;
-		fmt::printfln("Sorted now!")!;
-		fmt::printfln("-----------------------------------------")!;
+		if (len(sorted_sinfos) > 0) {
+			fmt::printfln("-----------------------------------------")!;
+			fmt::printfln("Sorted now!")!;
+			fmt::printfln("-----------------------------------------")!;
+		};
 		for (let sorted_sinfo .. sorted_sinfos) {
 			if (sorted_sinfo is markdown::media_info) {
 				let sorted_sinfo = sorted_sinfo as markdown::media_info;
