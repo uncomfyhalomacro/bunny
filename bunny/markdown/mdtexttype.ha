@@ -129,15 +129,15 @@ fn _extract_from_pair(line: str, p: rune) []pair_info = {
 		if (r as rune == p) {
 			found_first_pair = true;
 			if (found_count == 1) {
-				pair.end = index - 1; // a little offset to the left
-				pair.text = strings::sub(line, pair.start, pair.end);
+				pair.end = index; // a little offset to the left
+				pair.text = strings::sub(line, pair.start + 1, pair.end-1);
 				append(pairs, pair)!;
 				found_first_pair = false;
 				found_count = 0;
 			};
 		};
 		if (found_first_pair) {
-			pair.start = index;
+			pair.start = index - 1;
 			found_count = found_count + 1;
 			found_first_pair = false;
 		};
