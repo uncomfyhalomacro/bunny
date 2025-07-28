@@ -20,8 +20,9 @@ use fmt;
 	for (let pair .. lpairs) {
 		assert(pair.text != s, "original text and new text should not be the same!");
 		assert(pair.text == "code_block", "new text should be the extracted inline code!");
-		assert(pair.start == 1, "start index is wrong!");
-		assert(pair.end == 11, "end index is wrong!");
+		assert(pair.start == 0, "start index is wrong!");
+		assert(pair.end == 12, "end index is wrong!");
+		assert(strings::sub(s, pair.start, pair.end) == "`code_block`", "Resulting text should be the substring!");
 	};
 };
 
@@ -30,28 +31,28 @@ use fmt;
 	let text = markdown::mdpair::INLINE_CODE;
 	let lpairs = markdown::extract_text_from_pair(text, s);
 	let length = len(lpairs);
-	// start=1, end=11, text=code_block  (0)
-	// start=18, end=26, text=unpaired   (1)
-	// start=64, end=65, text=s          (2)
 	for (let i = 0z; i < length; i+=1) {
 		let pair = lpairs[i];
 		if (i == 0) {
 			assert(pair.text != s, "original text and new text should not be the same!");
 			assert(pair.text == "code_block", "new text should be the extracted inline code!");
-			assert(pair.start == 1, "start index is wrong!");
-			assert(pair.end == 11, "end index is wrong!");
+			assert(pair.start == 0, "start index is wrong!");
+			assert(pair.end == 12, "end index is wrong!");
+			assert(strings::sub(s, pair.start, pair.end) == "`code_block`", "Resulting text should be the substring!");
 		};
 		if (i == 1) {
 			assert(pair.text != s, "original text and new text should not be the same!");
 			assert(pair.text == "unpaired", "new text should be the extracted inline code!");
-			assert(pair.start == 18, "start index is wrong!");
-			assert(pair.end == 26, "end index is wrong!");
+			assert(pair.start == 17, "start index is wrong!");
+			assert(pair.end == 27, "end index is wrong!");
+			assert(strings::sub(s, pair.start, pair.end) == "`unpaired`", "Resulting text should be the substring!");
 		};
 		if (i == 2) {
 			assert(pair.text != s, "original text and new text should not be the same!");
 			assert(pair.text == "s", "new text should be the extracted inline code!");
-			assert(pair.start == 64, "start index is wrong!");
-			assert(pair.end == 65, "end index is wrong!");
+			assert(pair.start == 63, "start index is wrong!");
+			assert(pair.end == 66, "end index is wrong!");
+			assert(strings::sub(s, pair.start, pair.end) == "`s`", "Resulting text should be the substring!");
 		};
 	};
 };
@@ -63,8 +64,9 @@ use fmt;
 	for (let pair .. lpairs) {
 		assert(pair.text != s, "original text and new text should not be the same!");
 		assert(pair.text == "an italic text!", "new text should be the extracted italic text!");
-		assert(pair.start == 1, "start index is wrong!");
-		assert(pair.end == 16, "end index is wrong!");
+		assert(pair.start == 0, "start index is wrong!");
+		assert(pair.end == 17, "end index is wrong!");
+		assert(strings::sub(s, pair.start, pair.end) == "_an italic text!_", "Resulting text should be the substring!");
 	};
 };
 
@@ -80,14 +82,16 @@ use fmt;
 		if (i == 0) {
 			assert(pair.text != s, "original text and new text should not be the same!");
 			assert(pair.text == "an italic text!", "new text should be the extracted italic text!");
-			assert(pair.start == 1, "start index is wrong!");
-			assert(pair.end == 16, "end index is wrong!");
+			assert(pair.start == 0, "start index is wrong!");
+			assert(pair.end == 17, "end index is wrong!");
+			assert(strings::sub(s, pair.start, pair.end) == "_an italic text!_", "Resulting text should be the substring!");
 		};
 		if (i == 1) {
 			assert(pair.text != s, "original text and new text should not be the same!");
 			assert(pair.text == "followed by another in just an index away", "new text should be the extracted italic text!");
-			assert(pair.start == 18, "start index is wrong!");
-			assert(pair.end == 59, "end index is wrong!");
+			assert(pair.start == 17, "start index is wrong!");
+			assert(pair.end == 60, "end index is wrong!");
+			assert(strings::sub(s, pair.start, pair.end) == "_followed by another in just an index away_", "Resulting text should be the substring!");
 		};
 	};
 
