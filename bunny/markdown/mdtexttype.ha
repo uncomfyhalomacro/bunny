@@ -15,6 +15,8 @@ export type media = enum {
 	IMAGE
 };
 
+export type superinfotype = (media_info | pair_info);
+
 export type media_info = struct {
 	start: size,
 	end: size,
@@ -89,8 +91,8 @@ fn _extract_doubled_pair(line: str, p: rune) []pair_info = {
 			if (r as rune == p) {
 				found_first_pair = true;
 				if (found_count == 1) {
-					pair.end = index - 2; // a little offset to the left
-					pair.text = strings::sub(line, pair.start, pair.end);
+					pair.end = index; // a little offset to the left
+					pair.text = strings::sub(line, pair.start + 2, pair.end - 2);
 					append(pairs, pair)!;
 					found_first_pair = false;
 					found_count = 0;
@@ -98,7 +100,7 @@ fn _extract_doubled_pair(line: str, p: rune) []pair_info = {
 			};
 		};
 		if (found_first_pair) {
-			pair.start = index;
+			pair.start = index - 2;
 			found_count = found_count + 1;
 			found_first_pair = false;
 		};
@@ -183,13 +185,13 @@ fn _extract_linked_text(line: str) []media_info= {
 			found_first_parenthesis_pair = false;
 		};
 		if (found_first_bracket_pair) {
-			info.start = index;
+			info.start = index - 1;
 			found_bracket_count += 1;
 			found_first_bracket_pair = false;
 		};
 		if (r == ']') {
 			if (found_bracket_count == 1) {
-				info.alt_text = strings::sub(line, info.start, index - 1);
+				info.alt_text = strings::sub(line, info.start + 1, index - 1);
 				found_bracket_count += 1;
 			};
 		};
@@ -210,8 +212,8 @@ fn _extract_linked_text(line: str) []media_info= {
 		};
 		if (found_parenthesis_count == 1) {
 			if (r == ')') {
-				info.end = index - 1;
-				info.url = strings::sub(line, info.start + (len(info.alt_text)) + 2, info.end);
+				info.end = index;
+				info.url = strings::sub(line, info.start + (len(info.alt_text)) + 3, info.end - 1);
 				found_first_bracket_pair = false;
 				found_first_parenthesis_pair = false;
 				found_bracket_count = 0;
@@ -259,13 +261,13 @@ fn _extract_image_text(line: str) []media_info= {
 			};
 		};
 		if (found_first_bracket_pair) {
-			info.start = index;
+			info.start = index - 2;
 			found_bracket_count += 1;
 			found_first_bracket_pair = false;
 		};
 		if (r == ']') {
 			if (found_bracket_count == 1) {
-				info.alt_text = strings::sub(line, info.start, index - 1);
+				info.alt_text = strings::sub(line, info.start + 2, index - 1);
 				found_bracket_count += 1;
 			};
 		};
@@ -286,8 +288,8 @@ fn _extract_image_text(line: str) []media_info= {
 		};
 		if (found_parenthesis_count == 1) {
 			if (r == ')') {
-				info.end = index - 1;
-				info.url = strings::sub(line, info.start + (len(info.alt_text)) + 2, info.end);
+				info.end = index;
+				info.url = strings::sub(line, info.start + (len(info.alt_text)) + 4, info.end - 1);
 				found_first_bracket_pair = false;
 				found_first_parenthesis_pair = false;
 				found_bracket_count = 0;
