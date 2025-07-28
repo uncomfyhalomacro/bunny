@@ -83,13 +83,14 @@ export fn sort_infos_by_start_index(ssts: []superinfotype) []superinfotype = {
 };
 
 export fn get_start_index_from_superinfotype(st: superinfotype) size = {
-	if (st is media_info) {
-		return _get_start_index_from_media_info(st as media_info);
+	match (st) {
+		case let new_info: media_info =>
+			return _get_start_index_from_media_info(new_info);
+		case let new_info: pair_info =>
+			return _get_start_index_from_pair_info(new_info);
+		case =>
+			fmt::fatalf("Error: one or more subtypes don't have the same implementation yet!");
 	};
-	if (st is pair_info) {
-		return _get_start_index_from_pair_info(st as pair_info);
-	};
-	fmt::fatalf("Error: one or more subtypes don't have the same implementation yet!");
 };
 
 export fn get_end_index_from_superinfotype(st: superinfotype) size = {
