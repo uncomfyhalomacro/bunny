@@ -55,13 +55,13 @@ export fn extract_text_from_pair(pair: mdpair, line: str) []pair_info = {
 		case mdpair::ITALIC =>
 			return _extract_from_pair(line, '_');
 		case mdpair::BOLD =>
-			return _extract_boldened_text(line);
+			return _extract_doubled_pair(line, '*');
 		case =>
 			fmt::fatalf("Error: Unknown mdpair type. Is this enum variant implemented?");
 	};
 };
 
-fn _extract_boldened_text(line: str) []pair_info = {
+fn _extract_doubled_pair(line: str, p: rune) []pair_info = {
 	let pairs: []pair_info = [];
 	let pair = pair_info {
 		start= 0z,
@@ -80,13 +80,13 @@ fn _extract_boldened_text(line: str) []pair_info = {
 			break;
 		};
 		index = index + 1;
-		if (r == '*') {
+		if (r as rune == p) {
 			r = strings::next(&iter);  // do it again
 			if (r is done) {
 				break;
 			};
 			index = index + 1;
-			if (r == '*') {
+			if (r as rune == p) {
 				found_first_pair = true;
 				if (found_count == 1) {
 					pair.end = index - 2; // a little offset to the left
