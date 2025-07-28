@@ -2,8 +2,12 @@ use fmt;
 
 // This generates the necessary list of [[superinfotype::]]s from a block of text.
 // Do note that this is unsorted so you have to call [[sort_infos_by_start_index::]]
-// and then check for overlaps. Overlaps indicate invalid markdown syntax and should
+// and then check for overlaps. Overlaps may indicate invalid markdown syntax or nested markdown syntax and should
 // not be rendered as much as possible.
+//
+// Do also note that [[mdpair::TEXT::]] was not included in the generation of info types because
+// 1. it's a placeholder in [[mdpair::]].
+// 2. we have start and end indices to indicate which parts of a text is just plain text.
 //
 // TODO: Create a filter for overlaps. Check the end index of the previous item and check the
 // start index of the next item and so on...
@@ -11,7 +15,7 @@ export fn generate_information_from_block(blk: block_info) []superinfotype= {
 	let supinfos: []superinfotype = [];
 	let textblock = blk.block;
 	// TODO: add normalise block here.
-	// NOTE: our base case should be mdpair::TEXT
+	// NOTE: our base case should be mdpair::TEXT. That means if len(supinfos) == 0, it should just be text.
 	let links = extract_media(media::LINK, textblock);
 	let images = extract_media(media::IMAGE, textblock);
 	let bold_texts = extract_text_from_pair(mdpair::BOLD, textblock);
@@ -117,10 +121,5 @@ fn _get_end_index_from_media_info(st: media_info) size = {
 
 fn _get_end_index_from_pair_info(st: pair_info) size = {
 	return st.end;
-};
-// Sort from lowest to highest
-fn _sort_infos_by_start_index(ssts: []superinfotype) void = {
-	let lowest: size = 0;
-	return;
 };
 
