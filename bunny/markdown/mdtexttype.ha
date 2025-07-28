@@ -51,7 +51,7 @@ export fn extract_text_from_pair(pair: mdpair, line: str) []pair_info = {
 			end= len(line),
 			text= line,
 		};
-		return [new_pair_info];
+			return [new_pair_info];
 		case mdpair::INLINE_CODE =>
 			return _extract_from_pair(line, '`');
 		case mdpair::ITALIC =>
@@ -299,9 +299,5 @@ fn _extract_image_text(line: str) []media_info= {
 		};
 	};
 	return infos;
-};
-
-export fn parseline(line: str) (texttype | void) = {
-	return;
 };
 
