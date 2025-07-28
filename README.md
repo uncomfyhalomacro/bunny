@@ -73,13 +73,7 @@ You can also run specific tests by specifying the file path:
 hare test tests/mdextract.ha
 ```
 
-To run the examples, you can run the following command:
-
-```bash
-hare run examples
-```
-
-You can also run specific examples by specifying the file path:
+Run specific examples by specifying the file path:
 
 ```bash
 hare run examples/extract-media.ha
