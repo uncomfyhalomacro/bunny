@@ -27,7 +27,8 @@ export type media_info = struct {
 	start: size,
 	end: size,
 	alt_text: str,
-	url: str
+	url: str,
+	kind: media
 };
 
 // Represents the captured matches based on [[mdpair::]] for
@@ -35,7 +36,8 @@ export type media_info = struct {
 export type pair_info = struct {
 	start: size,
 	end: size,
-	text: str
+	text: str,
+	kind: mdpair
 };
 
 // Generates a list of [[media_info::]]s based on an [[media::]] enum variant from a line of text.
@@ -58,6 +60,7 @@ export fn extract_text_from_pair(pair: mdpair, line: str) []pair_info = {
 			start= 0z,
 			end= len(line),
 			text= line,
+			kind= mdpair::TEXT
 		};
 			return [new_pair_info];
 		case mdpair::INLINE_CODE =>
@@ -71,12 +74,22 @@ export fn extract_text_from_pair(pair: mdpair, line: str) []pair_info = {
 	};
 };
 
+fn _get_kind_from_doubled_rune(p: rune) mdpair = {
+	if (p == '*') {
+		return mdpair::BOLD;
+	};
+	fmt::fatalf("Error: unimplemented!");
+};
+
+
 fn _extract_doubled_pair(line: str, p: rune) []pair_info = {
+	let kind = _get_kind_from_doubled_rune(p);
 	let pairs: []pair_info = [];
 	let pair = pair_info {
 		start= 0z,
 		end= 0z,
-		text= ""
+		text= "",
+		kind= kind
 	};
 	let ispairfound = false;
 	let iter = strings::iter(line);
@@ -116,12 +129,24 @@ fn _extract_doubled_pair(line: str, p: rune) []pair_info = {
 	return pairs;
 };
 
+fn _get_kind_from_rune(p: rune) mdpair = {
+	if (p == '`') {
+		return mdpair::INLINE_CODE;
+	};
+	if (p == '_') {
+		return mdpair::ITALIC;
+	};
+	fmt::fatalf("Error: unimplemented!");
+};
+
 fn _extract_from_pair(line: str, p: rune) []pair_info = {
+	let kind = _get_kind_from_rune(p);
 	let pairs: []pair_info = [];
 	let pair = pair_info {
 		start= 0z,
 		end= 0z,
-		text= ""
+		text= "",
+		kind= kind
 	};
 	let ispairfound = false;
 	let iter = strings::iter(line);
@@ -159,7 +184,8 @@ fn _extract_linked_text(line: str) []media_info= {
 		start= 0z,
 		end= 0z,
 		alt_text= "",
-		url= ""
+		url= "",
+		kind= media::LINK,
 	};
 	let ispairfound = false;
 	let iter = strings::iter(line);
@@ -239,7 +265,8 @@ fn _extract_image_text(line: str) []media_info= {
 		start= 0z,
 		end= 0z,
 		alt_text= "",
-		url= ""
+		url= "",
+		kind= media::IMAGE
 	};
 	let ispairfound = false;
 	let iter = strings::iter(line);
