@@ -139,14 +139,6 @@ fn _split_to_blocks(md: str) []str = {
 		c = strings::cut(c.1, "\n\n");
 	};
 	return ret;
-	// TODO: report bug? strings::split with '\n\n' delimiter seems to behave as '\n'
-	// let ret: []str = [];
-	// let splits_ = strings::split(md, "\n\n")!;
-	// for (let sp .. splits_) {
-	// 	append(ret, strings::trim(sp))!;
-	// };
-	// return ret;
-
 };
 
 fn _starts_with_numbered_item(haystack: str) bool = {
