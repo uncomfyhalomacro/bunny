@@ -354,7 +354,6 @@ fn _extract_image_text(line: str) []media_info= {
 			if (r is done) {
 				break;
 			};
-			fmt::println("Current Rune after bracket: {}", r as rune)!;
 			if (first_bracket_count != second_bracket_count) {
 				fmt::errorfln("Warning: found unbalanced brackets in image syntax! Review your content.")!;
 			};
