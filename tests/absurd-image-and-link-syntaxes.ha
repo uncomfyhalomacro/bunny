@@ -11,7 +11,7 @@ use fmt;
 	};
 };
 
-@test fn too_many_pairs_images() void = {
+@test fn too_many_pairs_images_one_unpaired() void = {
 	let line = "![[alt text]]((https://example.com) ![real link that makes sense](https://example.com)";
 	let links= markdown::extract_media(markdown::media::IMAGE, line);
 	assert(len(links) == 1);
@@ -23,4 +23,16 @@ use fmt;
 	};
 };
 
+
+@test fn too_many_pairs_images_correct_number_of_pairs() void = {
+	let line = "![[alt text]]((https://example.com)) ![real link that makes sense](https://example.com)";
+	let links= markdown::extract_media(markdown::media::IMAGE, line);
+	assert(len(links) == 2);
+};
+
+@test fn crazy_numbers_in_image_syntax() void = {
+	let line = "![[[[[[alt text]]]]]]((https://example.com)) ![[[real link that makes sense]]]((((((https://example.com)) [this is not an image](https://example.com)";
+	let links= markdown::extract_media(markdown::media::IMAGE, line);
+	assert(len(links) == 1);
+};
 
