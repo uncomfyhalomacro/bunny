@@ -355,7 +355,8 @@ fn _extract_image_text(line: str) []media_info= {
 				break;
 			};
 			if (first_bracket_count != second_bracket_count) {
-				fmt::errorfln("Warning: found unbalanced brackets in image syntax! Review your content.")!;
+				let erratic_syntax = strings::sub(line, info.start, index);
+				fmt::errorfln("Warning: found unbalanced pairing in image syntax! Near column {} and text `{}`", index, erratic_syntax)!;
 			};
 			if (r == '(') {
 				found_first_parenthesis_pair = true;
@@ -389,6 +390,7 @@ fn _extract_image_text(line: str) []media_info= {
 					};
 					index += 1;
 					if (r == '[') {
+						fmt::errorfln("Warning: found unbalanced pairing in image syntax! Near column {} and text `{}`.", info.start, strings::sub(line, info.start, index))!;
 						info.start = index - 2;
 						found_first_bracket_pair = true;
 						found_first_parenthesis_pair = false;
@@ -415,19 +417,20 @@ fn _extract_image_text(line: str) []media_info= {
 						found_first_bracket_pair = false;
 						first_parens_count = 0;
 						second_parens_count = 0;
-						fmt::errorfln("Warning: found unbalanced parentheses in image syntax! Review your content.")!;
 						break;
 					};
 					index += 1;
 					if (r == ')') {
 						second_parens_count += 1;
 					} else {
-						found_first_parenthesis_pair = false;
-						found_first_bracket_pair = false;
-						first_parens_count = 0;
-						second_parens_count = 0;
-						fmt::errorfln("Warning: found unbalanced parentheses in image syntax! Review your content.")!;
-						break;
+						if (second_parens_count != first_parens_count) {
+							found_first_parenthesis_pair = false;
+							found_first_bracket_pair = false;
+							first_parens_count = 0;
+							second_parens_count = 0;
+							fmt::errorfln("Warning: found unbalanced pairing in image syntax! Review your content.")!;
+							break;
+						};
 					};
 				};
 				if (!found_first_parenthesis_pair && !found_first_bracket_pair) {
@@ -441,6 +444,8 @@ fn _extract_image_text(line: str) []media_info= {
 					first_parens_count =0;
 					found_first_bracket_pair = false;
 					found_first_parenthesis_pair = false;
+				} else {
+					fmt::errorfln("Warning: found unbalanced pairing in image syntax! Review your content.")!;
 				};
 			};
 		};
