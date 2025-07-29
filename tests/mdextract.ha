@@ -196,7 +196,7 @@ use fmt;
 		assert(pair.url == "https://imgur.com", "new url should be extracted url!");
 		assert(pair.start == 0, "start index is wrong!");
 		assert(pair.end == 37, "end index is wrong!");
-		assert(strings::sub(s, pair.start, pair.end) == "![image alt text!](https://imgur.com)", "resulting text should start after the first opening bracket and ends before the last closing parenthesis. the middle should be `](`!");
+		assert(strings::sub(s, pair.start, pair.end) == "![image alt text!](https://imgur.com)", "Resulting text should be the substring!");
 	};
 };
 
