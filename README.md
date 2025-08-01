@@ -18,7 +18,7 @@ the language so here we are.
 
 🐇 **Bunny** **won first place 🏆** in the **amateur category** of [Boot.dev's 2025 Hackathon](https://blog.boot.dev/news/hackathon-2025/).
 
-Lane Wagner's review and reaction to the project:
+[Lane Wagner](https://github.com/wagslane)'s review and reaction to the project:
 
 > In July of 2025 we ran a 3-day hackathon, and Soc's project was a bit
 > mind-melting. I couldn't believe someone was ambitious enough to build in
