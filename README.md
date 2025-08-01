@@ -14,6 +14,19 @@ static site generator in Python. I am building this project out of curiosity of
 the Hare programming language. I already made a project in Hare but I miss
 the language so here we are.
 
+### Bonus Inspiration
+
+🐇 **Bunny** **won first place 🏆** in the **amateur category** of [Boot.dev's 2025 Hackathon](https://blog.boot.dev/news/hackathon-2025/).
+
+Lane Wagner's review and reaction to the project:
+
+> In July of 2025 we ran a 3-day hackathon, and Soc's project was a bit
+> mind-melting. I couldn't believe someone was ambitious enough to build in
+> Harelang, and not only that, but to tackle one of the harder project ideas
+> for such a short time window - a static site generator! I poked through the
+> project and played around with it, and honestly have nothing but nice
+> things to say about Soc and their project, "Bunny"!
+
 ## Features 🚧
 
 # Dependencies
