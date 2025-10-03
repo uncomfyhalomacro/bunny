@@ -7,7 +7,7 @@
 The project's goals for now is to try to at least export a markdown file to
 an HTML file. It's still in its early stages and under heavy experimentation.
 
-## Inspiration
+## Motivation
 
 The inspiration around the project is from [Boot.dev](https://boot.dev)'s
 static site generator in Python. I am building this project out of curiosity of
@@ -35,7 +35,9 @@ the language so here we are.
 - a harelang installation. Hare is available in the [AUR](https://aur.archlinux.org/packages/hare). If you use openSUSE, just run `sudo zypper in hare`.
 - `make` or `gmake` command for the `Makefile`.
 
-# How To Use 🚧
+# Quick Start 🚧
+
+# Usage
 
 ## Library
 
@@ -109,3 +111,5 @@ haredoc -a bunny
 haredoc -a bunny::markdown
 haredoc -a bunny::html
 ```
+
+# Contributing
